@@ -27,6 +27,18 @@ import akka.util.ByteString
 class GzipSpec extends Specification with CodecSpecSupport {
 
   "The Gzip codec" should {
+    "produce valid data on immediate finish" in {
+      streamGunzip(Gzip.newCompressor.finish()) must readAs(emptyText)
+    }
+    "properly encode an empty string" in {
+      streamGunzip(ourGzip(emptyTextBytes)) must readAs(emptyText)
+    }
+    "properly decode an empty string" in {
+      ourGunzip(streamGzip(emptyTextBytes)) must readAs(emptyText)
+    }
+    "properly roundtip encode/decode an empty string" in {
+      ourGunzip(ourGzip(emptyTextBytes)) must readAs(emptyText)
+    }
     "properly encode a small string" in {
       streamGunzip(ourGzip(smallTextBytes)) must readAs(smallText)
     }

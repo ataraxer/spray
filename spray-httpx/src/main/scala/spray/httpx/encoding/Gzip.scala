@@ -64,6 +64,7 @@ class GzipCompressor extends DeflateCompressor {
   }
 
   override def finish() = {
+    if (!headerSent) output.write(GzipCompressor.Header)
     def byte(i: Int) = (i & 0xFF).asInstanceOf[Byte]
     val crc = checkSum.getValue.asInstanceOf[Int]
     val tot = deflater.getTotalIn

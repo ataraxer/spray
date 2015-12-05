@@ -24,6 +24,18 @@ import org.specs2.mutable.Specification
 class DeflateSpec extends Specification with CodecSpecSupport {
 
   "The Deflate codec" should {
+    "produce valid data on immediate finish" in {
+      streamInflate(Deflate.newCompressor.finish()) must readAs(emptyText)
+    }
+    "properly encode an empty string" in {
+      streamInflate(ourDeflate(emptyTextBytes)) must readAs(emptyText)
+    }
+    "properly decode an empty string" in {
+      ourInflate(streamDeflate(emptyTextBytes)) must readAs(emptyText)
+    }
+    "properly roundtip encode/decode an empty string" in {
+      ourInflate(ourDeflate(emptyTextBytes)) must readAs(emptyText)
+    }
     "properly encode a small string" in {
       streamInflate(ourDeflate(smallTextBytes)) must readAs(smallText)
     }

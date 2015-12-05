@@ -31,9 +31,11 @@ trait CodecSpecSupport {
     i
   }
 
+  lazy val emptyTextBytes = emptyText.getBytes("UTF8")
   lazy val smallTextBytes = smallText.getBytes("UTF8")
   lazy val largeTextBytes = largeText.getBytes("UTF8")
 
+  val emptyText = ""
   val smallText = "Yeah!"
   val largeText =
     """Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
